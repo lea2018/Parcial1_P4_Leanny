@@ -1,15 +1,56 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Parcial1_P4_Leanny.Models;
+using Parcial1_P4_Leanny.Services;
 
-namespace ApiPlanetas.Controllers
+namespace Parcial1_P4_Leanny.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class NumberController : ControllerBase
     {
-        [HttpGet]
-        public double Get(double numero)
+        private readonly NumbersService _numbersService;
+
+        public NumberController(NumbersService numbersService)
         {
-            return numero + numero;
+            _numbersService = numbersService;
+        }
+
+        [HttpGet]
+        public async Task<string> Get(double numero)
+        {
+            double resultado = numero + numero;
+
+            var record = new NumberRecord
+            {
+                Fecha = DateTime.Now,
+                Numero = numero,
+                Resultado = resultado
+            };
+
+            await _numbersService.SaveAsync(record);
+
+            return $"El resultado de la suma es {resultado}";
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<NumberRecord>> GetById(int id)
+        {
+            var record = await _numbersService.GetByIdAsync(id);
+
+            if (record == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(record);
+        }
+
+        [HttpGet("historial")]
+        public async Task<ActionResult<IEnumerable<NumberRecord>>> GetList()
+        {
+            var records = await _numbersService.GetListAsync();
+
+            return Ok(records);
         }
     }
 }

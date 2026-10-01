@@ -1,3 +1,7 @@
 <Solution>
-  <Project Path="ApiPlanetas.csproj" />
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Parcial1_P4_Leanny.csproj" />
 </Solution>
