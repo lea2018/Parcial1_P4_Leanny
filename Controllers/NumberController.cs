@@ -20,12 +20,12 @@ namespace Parcial1_P4_Leanny.Controllers
         {
             double resultado = numero + numero;
 
-            var record = new NumberRecord
-            {
-                Fecha = DateTime.Now,
-                Numero = numero,
-                Resultado = resultado
-            };
+            var record = new NumberRecord(
+                0,
+                DateTime.Now,
+                numero,
+                resultado
+            );
 
             await _numbersService.SaveAsync(record);
 
